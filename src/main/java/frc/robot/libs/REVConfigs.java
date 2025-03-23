@@ -1,95 +1,50 @@
 package frc.robot.libs;
 
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import frc.robot.libs.Constants;
 
-public final class REVConfigs {
+public class REVConfigs {
 
-    public static class SparkMaxConfiguration {
+    public final SparkMaxConfig defaultVelocitySparkMaxConfig = new SparkMaxConfig();
+    public final SparkMaxConfig defaultPositionSparkMaxConfig = new SparkMaxConfig();
+    public final SparkMaxConfig angleSparkMaxConfig = new SparkMaxConfig();
 
-        public IdleMode idleMode;
-        public boolean inverted;
+    public REVConfigs() {
+    
+        /* Swerve Module Drive Motor Configuration */
 
-        public int statusFrame0PeriodMs = 10;
-        public int statusFrame1PeriodMs;
-        public int statusFrame2PeriodMs;
+            /* Motor Invert and Idle Mode */
+            
+        /* Swerve Module Angle Motor Configuration */
 
-        public double openLoopRampRate;
-        public double closedLoopRampRate;
+            /* Motor Invert and Idle Mode */
+            angleSparkMaxConfig.inverted(Constants.kDrivetrain.ANGLE_INVERT);
+            angleSparkMaxConfig.idleMode(Constants.kDrivetrain.ANGLE_IDLE_MODE);
 
-        public boolean enableVoltageCompensation;
-        public double nominalVoltage;
+            /* Current Limiting */
+            angleSparkMaxConfig.smartCurrentLimit(Constants.kDrivetrain.ANGLE_CURRENT_LIMIT);
 
-        public int currentLimit;    
+            /* Open and Closed Loop Ramping */
+            angleSparkMaxConfig.openLoopRampRate(0);
+            angleSparkMaxConfig.closedLoopRampRate(0);
 
-        public SparkMaxConfiguration(
-            IdleMode idleMode, 
-            boolean inverted, 
-            boolean enableVoltageCompensation, 
-            double nominalVoltage, 
-            double openLoopRampRate, 
-            double closedLoopRampRate, 
-            int currentLimit, 
-            int statusFrame1RateMs,
-            int statusFrame2RateMs) {
+            /* Status Frame Periods */
+            angleSparkMaxConfig.signals.primaryEncoderVelocityPeriodMs(Constants.kDrivetrain.ANGLE_VELOCITY_PERIOD_MS);
+            angleSparkMaxConfig.signals.primaryEncoderPositionPeriodMs(Constants.kDrivetrain.ANGLE_POSITION_PERIOD_MS);
 
-                this.idleMode = idleMode;
-                this.inverted = inverted;
-                this.enableVoltageCompensation = enableVoltageCompensation;
-                this.nominalVoltage = nominalVoltage;
-                this.openLoopRampRate = openLoopRampRate;
-                this.closedLoopRampRate = closedLoopRampRate;
-                this.currentLimit = currentLimit;
-                this.statusFrame1PeriodMs = statusFrame1RateMs;
-                this.statusFrame2PeriodMs = statusFrame2RateMs;
+            /* Voltage Compensation */
+            angleSparkMaxConfig.voltageCompensation(12);
 
-        }
+            /* Conversion Factors */
+            angleSparkMaxConfig.encoder.positionConversionFactor(Constants.kDrivetrain.ANGLE_POSITION_CONVERSION_FACTOR_DEGREES);
+            angleSparkMaxConfig.encoder.velocityConversionFactor(Constants.kDrivetrain.ANGLE_VELOCITY_CONVERSION_FACTOR_DEGREES);
 
+            /* PID */
+            angleSparkMaxConfig.closedLoop.p(Constants.kDrivetrain.ANGLE_KP);
+            angleSparkMaxConfig.closedLoop.i(Constants.kDrivetrain.ANGLE_KI);
+            angleSparkMaxConfig.closedLoop.d(Constants.kDrivetrain.ANGLE_KD);
     }
-
-    public static final SparkMaxConfiguration defaultSparkMaxConfig = new SparkMaxConfiguration(
-        IdleMode.kBrake,
-        false,
-        false,
-        12,
-        0.0,
-        0.0,
-        30,
-        1000,
-        1000);
-
-    public static final SparkMaxConfiguration defaultVelocitySparkMaxConfig = new SparkMaxConfiguration(
-        IdleMode.kBrake,
-        false,
-        false,
-        12,
-        0.0,
-        0.0,
-        30,
-        200,
-        1000);
-
-    public static final SparkMaxConfiguration defaultPositionSparkMaxConfig = new SparkMaxConfiguration(
-        IdleMode.kBrake,
-        false,
-        false,
-        12,
-        0.0,
-        0.0,
-        20,
-        1500,
-        300);
-
-    public static final SparkMaxConfiguration angleSparkMaxConfig = new SparkMaxConfiguration(
-        Constants.kDrivetrain.ANGLE_IDLE_MODE, 
-        Constants.kDrivetrain.ANGLE_INVERT, 
-        false, 
-        12, 
-        0.0, 
-        0.0, 
-        20, 
-        Constants.kDrivetrain.ANGLE_FRAME_1_PERIOD_MS, 
-        Constants.kDrivetrain.ANGLE_FRAME_2_PERIOD_MS);
 
 }

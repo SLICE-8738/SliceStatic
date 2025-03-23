@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.libs.CTREConfigs;
+import frc.robot.libs.Constants.kDrivetrain;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +24,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  //private Drivetrain drivetrain;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -31,6 +34,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    //drivetrain = new Drivetrain();
   }
 
   /**
@@ -65,6 +69,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    //drivetrain.resetModulesToAbsolute();
   }
 
   /** This function is called periodically during autonomous. */
@@ -80,6 +85,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    //drivetrain.resetModulesToAbsolute();
   }
 
   /** This function is called periodically during operator control. */

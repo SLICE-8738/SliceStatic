@@ -65,15 +65,18 @@ public class SwerveModule {
 
         /* Angle Motor Config */
         angleMotor = new SparkMax(moduleConstants.angleMotorID , MotorType.kBrushless);
+        angleMotor.configure(Constants.REV_CONFIGS.angleSparkMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         integratedAngleEncoder = angleMotor.getEncoder();
         angleController = angleMotor.getClosedLoopController();
+        angleMotor.setCANTimeout(200);
         configAngleMotor();
+        //configAngleMotor();*
 
         /* Drive Motor Config */
         driveMotor = new TalonFX(moduleConstants.driveMotorID);
         configDriveMotor();
-        //driveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
-        //driveMotor.getConfigurator().setPosition(0.0);
+        driveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
+        driveMotor.getConfigurator().setPosition(0.0);
 
         lastAngle = getState().angle;
     }

@@ -22,6 +22,7 @@ import com.studica.frc.AHRS.NavXComType;
 
 public final class Constants {
    public static final double stickDeadband = 0.1;
+   public static final REVConfigs REV_CONFIGS = new REVConfigs();
 
     public static class OperatorConstants {
 
@@ -38,7 +39,7 @@ public final class Constants {
     public static final class kDrivetrain {
 
         public static final NavXComType NAVX_PORT = NavXComType.kMXP_SPI;
-        public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
+        public static final boolean INVERT_GYRO = true; // Always ensure Gyro is CCW+ CW-
     
         /* Drivetrain Constants */
         //TODO: Measure chassis and wheel dimensions
@@ -61,10 +62,11 @@ public final class Constants {
         public static final double MAX_VOLTAGE = 12.0;
     
         /* Swerve Current Limiting */
-        public static final int DRIVE_CURRENT_LIMIT = 35;
+        public static final int DRIVE_CURRENT_LIMIT = 40;
         public static final int DRIVE_CURRENT_THRESHOLD = 60;
         public static final double DRIVE_CURRENT_THRESHOLD_TIME = 0.1;
         public static final boolean DRIVE_ENABLE_CURRENT_LIMIT = true;
+        public static final int ANGLE_CURRENT_LIMIT = 30;
     
         public static final double OPEN_LOOP_RAMP = 0.25;
         public static final double CLOSED_LOOP_RAMP = 0.0;
@@ -93,16 +95,24 @@ public final class Constants {
         public static final double DRIVE_KV = 2.717;
         public static final double DRIVE_KA = 0.32115;
     
+        /* Angle Motor Feedforward Values */
+        public static final double ANGLE_KS = 0.0;
+        public static final double ANGLE_KV = 2.0244;
+        public static final double ANGLE_KA = 0.01;
+
         /* Drive Motor Conversion Factors */
         public static final double DRIVE_POSITION_CONVERSION_FACTOR = WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
         public static final double DRIVE_VELOCITY_CONVERSION_FACTOR = DRIVE_POSITION_CONVERSION_FACTOR / 60.0;
+
         public static final double ANGLE_POSITION_CONVERSION_FACTOR_DEGREES = 360.0 / ANGLE_GEAR_RATIO;
-        public static final double ANGLE_POSITION_CONVERSION_FACTOR_RADIANS = Math.PI * 2;
+        //public static final double ANGLE_POSITION_CONVERSION_FACTOR_RADIANS = Math.PI * 2;
         public static final double ANGLE_VELOCITY_CONVERSION_FACTOR_DEGREES = ANGLE_POSITION_CONVERSION_FACTOR_DEGREES
             / 60.0;
-        public static final double ANGLE_VELOCITY_CONVERSION_FACTOR_RADIANS = ANGLE_POSITION_CONVERSION_FACTOR_RADIANS
-            / 60.0;
+        //public static final double ANGLE_VELOCITY_CONVERSION_FACTOR_RADIANS = ANGLE_POSITION_CONVERSION_FACTOR_RADIANS
+         //   / 60.0;
     
+        public static final int ANGLE_VELOCITY_PERIOD_MS = 1500;
+        public static final int ANGLE_POSITION_PERIOD_MS = 300;
         /* Swerve Profiling Values */
         public static final double MAX_LINEAR_VELOCITY = 4.5; // meters per second
         public static final double MAX_ANGULAR_VELOCITY = 7; // radians per second
@@ -116,18 +126,10 @@ public final class Constants {
         public static final boolean ANGLE_INVERT = true;
     
         /* Angle Encoder Invert */
-        public static final SensorDirectionValue CANCODER_INVERT = SensorDirectionValue.CounterClockwise_Positive;
-        // Charge Station Board and Balance Speeds (-1 - 1)
-        // public static final double CHARGE_STATION_BALANCE_SPEED = 0.3;
-        // public static final double BOARD_CHARGE_SPEED = -0.55;
+        public static final SensorDirectionValue CANCODER_INVERT = SensorDirectionValue.Clockwise_Positive;
+        
     
-        /*
-         * Charge Station Board and Balance Speeds (meters/second)
-         * THESE SPEEDS WERE CALCULATED BASED ON THE CURRENT MAXIMUM VELOCITY
-         * CONSTANT AND ARE PLACEHOLDERS FOR NOW
-         */
-        public static final double CHARGE_STATION_BALANCE_SPEED = 1.35;
-        public static final double BOARD_CHARGE_SPEED = 2.475;
+        
     
         // The minimum angle the drivetrain must be at to stop when boarding the charge
         // station
@@ -146,7 +148,7 @@ public final class Constants {
           public static final int DRIVE_MOTOR_ID = 2;
           public static final int ANGLE_MOTOR_ID = 1;
           public static final int CANCODER_ID = 21;
-          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(14.06);
+          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(-11.42);
           public static final SwerveModuleConstants CONSTANTS = new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID,
               CANCODER_ID, ANGLE_OFFSET);
         }
@@ -156,7 +158,7 @@ public final class Constants {
           public static final int DRIVE_MOTOR_ID = 8;
           public static final int ANGLE_MOTOR_ID = 7;
           public static final int CANCODER_ID = 27;
-          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(170.85);
+          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(-168.57);
           public static final SwerveModuleConstants CONSTANTS = new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID,
               CANCODER_ID, ANGLE_OFFSET);
         }
@@ -166,17 +168,17 @@ public final class Constants {
           public static final int DRIVE_MOTOR_ID = 4;
           public static final int ANGLE_MOTOR_ID = 3;
           public static final int CANCODER_ID = 23;
-          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(-114.65);
+          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(111.35);//111.35
           public static final SwerveModuleConstants CONSTANTS = new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID,
               CANCODER_ID, ANGLE_OFFSET);
         }
     
         /* Back Right Module - Module 3 */
         public static final class Mod3 {
-          public static final int DRIVE_MOTOR_ID =6;
+          public static final int DRIVE_MOTOR_ID = 6;
           public static final int ANGLE_MOTOR_ID = 5;
           public static final int CANCODER_ID = 25;
-          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(108.11); 
+          public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(-96.50); 
           public static final SwerveModuleConstants CONSTANTS = new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID,
               CANCODER_ID, ANGLE_OFFSET);
         }

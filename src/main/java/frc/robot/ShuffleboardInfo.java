@@ -14,12 +14,13 @@ public class ShuffleboardInfo {
     
    // ShuffleboardTab tab = Shuffleboard.getTab("Modules");
     
-    private final ShuffleboardTab modulesTab;
+    private final ShuffleboardTab modulesTab, debugTab, autoTab;
 
     public  ShuffleboardInfo(Drivetrain drivebase) {
         
         modulesTab = Shuffleboard.getTab("Module Tab");
-        //debugTab = Shuffleboard.getTab("Debug Tab");
+        debugTab = Shuffleboard.getTab("Debug Tab");
+        autoTab = Shuffleboard.getTab("Auto Tab");
 
             modulesTab.addDouble("Left Front CANCoder Angle", () -> drivebase.getCANCoderAngles()[0]).
             withWidget(BuiltInWidgets.kDial).
@@ -66,32 +67,23 @@ public class ShuffleboardInfo {
             modulesTab.addDouble("Right Back Integrated Angle", () -> drivebase.getStates()[3].angle.getDegrees()).
             withPosition(5, 3).
             withSize(2, 1);
-            modulesTab.addDouble("heading", () -> drivebase.getHeading().getDegrees()).
-            withPosition(5, 4).
-            withSize(2, 1);
         
-           /* //Displays the current heading of the robot in degrees on Shuffleboard
-            debugTab.addDouble("Drivetrain Heading", drivetrain.getHeading()).
+            //Displays the current heading of the robot in degrees on Shuffleboard
+            debugTab.addDouble("Drivetrain Heading", () -> drivebase.getHeading().getDegrees()).
             withWidget(BuiltInWidgets.kDial).
             withProperties(Map.of("Min", 0, "Max", 360)).
             withPosition(0, 0).
             withSize(2, 1);
-            //Displays the current roll of the robot in degrees on Shuffleboard
-            debugTab.addDouble("Drivetrain Roll", drivetrain::getRoll).
-            withWidget(BuiltInWidgets.kDial).
-            withProperties(Map.of("Min", -180, "Max", 180)).
-            withPosition(7, 0).
-            withSize(2, 1);
                 
             //Displays the current position of the robot on the field on Shuffleboard
-            debugTab.add(drivetrain.m_field2d).
+            debugTab.add(drivebase.field).
             withPosition(3, 2).
-            withSize(3, 2);*/
+            withSize(3, 2);
         
             
 
         }
-
+        
     }
  
     

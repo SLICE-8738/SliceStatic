@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.SwerveModule;
+import frc.robot.subsystems.Swerve.Drivetrain;
+import frc.robot.subsystems.Swerve.SwerveModule;
 
 
 public class ShuffleboardInfo {

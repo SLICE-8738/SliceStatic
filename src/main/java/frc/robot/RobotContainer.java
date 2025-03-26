@@ -33,7 +33,7 @@ import frc.robot.subsystems.Swerve.Drivetrain;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
-    public XboxController otherManipXbox = new XboxController(1);
+    public XboxController manip = new XboxController(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -48,6 +48,7 @@ public class RobotContainer {
     private final Drivetrain s_Swerve = new Drivetrain();
     private final SendableChooser<Command> autoChooser;
     private final Elevator elevator = new Elevator();
+    private final Arm arm = new Arm();
     private final Intake intake = new Intake();
     private final RunElevator system = new RunElevator(elevator, intake);
     private final Hopper hopper = new Hopper();
@@ -82,28 +83,28 @@ public class RobotContainer {
 
         /* Button  Commands */
         //hopper in
-        new JoystickButton(otherManipXbox, 5).onTrue(hopper.runLeft(hopper.hopperSpeed));
-        new JoystickButton(otherManipXbox, 5).onTrue(hopper.runRight(hopper.hopperSpeed));
-        new JoystickButton(otherManipXbox, 5).onFalse(hopper.runLeft(0));
-        new JoystickButton(otherManipXbox, 5).onFalse(hopper.runRight(0));
+        new JoystickButton(manip, 5).onTrue(hopper.runLeft(hopper.hopperSpeed));
+        new JoystickButton(manip, 5).onTrue(hopper.runRight(hopper.hopperSpeed));
+        new JoystickButton(manip, 5).onFalse(hopper.runLeft(0));
+        new JoystickButton(manip, 5).onFalse(hopper.runRight(0));
         
         //hopper out
-        new JoystickButton(otherManipXbox, 6).onTrue(hopper.reverseLeft(hopper.reverseHopperSpeed));
-        new JoystickButton(otherManipXbox, 6).onTrue(hopper.reverseRight(hopper.reverseHopperSpeed));    
-        new JoystickButton(otherManipXbox, 6).onFalse(hopper.reverseLeft(0));
-        new JoystickButton(otherManipXbox, 6).onFalse(hopper.reverseRight(0));
+        new JoystickButton(manip, 6).onTrue(hopper.reverseLeft(hopper.reverseHopperSpeed));
+        new JoystickButton(manip, 6).onTrue(hopper.reverseRight(hopper.reverseHopperSpeed));    
+        new JoystickButton(manip, 6).onFalse(hopper.reverseLeft(0));
+        new JoystickButton(manip, 6).onFalse(hopper.reverseRight(0));
         
         //intake controls
-        new JoystickButton(otherManipXbox, 2).onTrue(intake.run(intake.intakeSpeed*-1));
-        new JoystickButton(otherManipXbox, 2).onFalse(intake.rest());
+        new JoystickButton(manip, 2).onTrue(intake.run(intake.intakeSpeed*-1));
+        new JoystickButton(manip, 2).onFalse(intake.rest());
         
         //elevator + arm + intake
-        new JoystickButton(otherManipXbox, 3).onTrue(system.grab()); //X
-        new JoystickButton(otherManipXbox, 4).onTrue(system.rest()); //Y
-        new POVButton(otherManipXbox, 0).onTrue(system.setPosition(0)); //up
-        new POVButton(otherManipXbox, 90).onTrue(system.setPosition(1)); //right
-        new POVButton(otherManipXbox, 180).onTrue(system.setPosition(2)); //down
-        new POVButton(otherManipXbox, 270).onTrue(system.setPosition(3)); //left        
+        new JoystickButton(manip, 3).onTrue(system.grab()); //X
+        new JoystickButton(manip, 4).onTrue(system.rest()); //Y
+        new POVButton(manip, 0).onTrue(system.setPosition(0)); //up
+        new POVButton(manip, 90).onTrue(system.setPosition(1)); //right
+        new POVButton(manip, 180).onTrue(system.setPosition(2)); //down
+        new POVButton(manip, 270).onTrue(system.setPosition(3)); //left        
     }
 
     /**

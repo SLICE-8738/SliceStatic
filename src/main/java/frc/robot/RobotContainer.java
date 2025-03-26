@@ -10,6 +10,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.Subsystems.RunElevator;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 
 //import frc.robot.autos.*;
 import frc.robot.commands.*;
@@ -25,6 +33,7 @@ import frc.robot.subsystems.Swerve.Drivetrain;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    public XboxController otherManipXbox = new XboxController(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -38,7 +47,10 @@ public class RobotContainer {
     /* Subsystems */
     private final Drivetrain s_Swerve = new Drivetrain();
     private final SendableChooser<Command> autoChooser;
-
+    private final Elevator elevator = new Elevator();
+    private final Intake intake = new Intake();
+    private final RunElevator system = new RunElevator(elevator, intake);
+    private final Hopper hopper = new Hopper();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -68,7 +80,7 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        /**button commands**/
+        /* Button  Commands */
         //hopper in
         new JoystickButton(otherManipXbox, 5).onTrue(hopper.runLeft(hopper.hopperSpeed));
         new JoystickButton(otherManipXbox, 5).onTrue(hopper.runRight(hopper.hopperSpeed));

@@ -12,6 +12,14 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.Subsystems.RunElevator;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 
 //import frc.robot.autos.*;
 import frc.robot.commands.*;
@@ -31,7 +39,11 @@ import frc.robot.subsystems.Elevator;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+<<<<<<< HEAD
     private final XboxController otherManipXbox = new XboxController(1);
+=======
+    public XboxController manip = new XboxController(1);
+>>>>>>> 8b7c4e2bbbde2aef4fb3ff615df7a30849608d1d
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -45,6 +57,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Drivetrain s_Swerve = new Drivetrain();
     private final SendableChooser<Command> autoChooser;
+<<<<<<< HEAD
 
     // Manip Subsystems
     private final Elevator elevator = new Elevator();
@@ -52,6 +65,13 @@ public class RobotContainer {
     private final RunElevator system = new RunElevator(elevator, intake);
     private final Hopper hopper = new Hopper();
 
+=======
+    private final Elevator elevator = new Elevator();
+    private final Arm arm = new Arm();
+    private final Intake intake = new Intake();
+    private final RunElevator system = new RunElevator(elevator, intake);
+    private final Hopper hopper = new Hopper();
+>>>>>>> 8b7c4e2bbbde2aef4fb3ff615df7a30849608d1d
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -81,31 +101,35 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
+<<<<<<< HEAD
 
         /**button commands**/
+=======
+        /* Button  Commands */
+>>>>>>> 8b7c4e2bbbde2aef4fb3ff615df7a30849608d1d
         //hopper in
-        new JoystickButton(otherManipXbox, 5).onTrue(hopper.runLeft(hopper.hopperSpeed));
-        new JoystickButton(otherManipXbox, 5).onTrue(hopper.runRight(hopper.hopperSpeed));
-        new JoystickButton(otherManipXbox, 5).onFalse(hopper.runLeft(0));
-        new JoystickButton(otherManipXbox, 5).onFalse(hopper.runRight(0));
+        new JoystickButton(manip, 5).onTrue(hopper.runLeft(hopper.hopperSpeed));
+        new JoystickButton(manip, 5).onTrue(hopper.runRight(hopper.hopperSpeed));
+        new JoystickButton(manip, 5).onFalse(hopper.runLeft(0));
+        new JoystickButton(manip, 5).onFalse(hopper.runRight(0));
         
         //hopper out
-        new JoystickButton(otherManipXbox, 6).onTrue(hopper.reverseLeft(hopper.reverseHopperSpeed));
-        new JoystickButton(otherManipXbox, 6).onTrue(hopper.reverseRight(hopper.reverseHopperSpeed));    
-        new JoystickButton(otherManipXbox, 6).onFalse(hopper.reverseLeft(0));
-        new JoystickButton(otherManipXbox, 6).onFalse(hopper.reverseRight(0));
+        new JoystickButton(manip, 6).onTrue(hopper.reverseLeft(hopper.reverseHopperSpeed));
+        new JoystickButton(manip, 6).onTrue(hopper.reverseRight(hopper.reverseHopperSpeed));    
+        new JoystickButton(manip, 6).onFalse(hopper.reverseLeft(0));
+        new JoystickButton(manip, 6).onFalse(hopper.reverseRight(0));
         
         //intake controls
-        new JoystickButton(otherManipXbox, 2).onTrue(intake.run(intake.intakeSpeed*-1));
-        new JoystickButton(otherManipXbox, 2).onFalse(intake.rest());
+        new JoystickButton(manip, 2).onTrue(intake.run(intake.intakeSpeed*-1));
+        new JoystickButton(manip, 2).onFalse(intake.rest());
         
         //elevator + arm + intake
-        new JoystickButton(otherManipXbox, 3).onTrue(system.grab()); //X
-        new JoystickButton(otherManipXbox, 4).onTrue(system.rest()); //Y
-        new POVButton(otherManipXbox, 0).onTrue(system.setPosition(0)); //up
-        new POVButton(otherManipXbox, 90).onTrue(system.setPosition(1)); //right
-        new POVButton(otherManipXbox, 180).onTrue(system.setPosition(2)); //down
-        new POVButton(otherManipXbox, 270).onTrue(system.setPosition(3)); //left        
+        new JoystickButton(manip, 3).onTrue(system.grab()); //X
+        new JoystickButton(manip, 4).onTrue(system.rest()); //Y
+        new POVButton(manip, 0).onTrue(system.setPosition(0)); //up
+        new POVButton(manip, 90).onTrue(system.setPosition(1)); //right
+        new POVButton(manip, 180).onTrue(system.setPosition(2)); //down
+        new POVButton(manip, 270).onTrue(system.setPosition(3)); //left        
     }
 
     /**

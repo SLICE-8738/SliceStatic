@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -15,6 +17,10 @@ import com.pathplanner.lib.auto.NamedCommands;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Swerve.Drivetrain;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Elevator;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,6 +31,7 @@ import frc.robot.subsystems.Swerve.Drivetrain;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    private final XboxController otherManipXbox = new XboxController(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -38,6 +45,12 @@ public class RobotContainer {
     /* Subsystems */
     private final Drivetrain s_Swerve = new Drivetrain();
     private final SendableChooser<Command> autoChooser;
+
+    // Manip Subsystems
+    private final Elevator elevator = new Elevator();
+    private final Intake intake = new Intake();
+    private final RunElevator system = new RunElevator(elevator, intake);
+    private final Hopper hopper = new Hopper();
 
 
 
@@ -67,6 +80,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
 
         /**button commands**/
         //hopper in

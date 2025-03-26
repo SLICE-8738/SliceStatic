@@ -46,11 +46,6 @@ public class ShuffleboardInfo {
             withPosition(7, 2).
             withSize(2, 1);
 
-           /* modulesTab.add("Drivetrain Heading", drivetrain.getHeading()).
-            withWidget(BuiltInWidgets.kDial).
-            withProperties(Map.of("Min", 0, "Max", 360)).
-            withPosition(0, 0).
-            withSize(2, 1);*/
             //Displays the current integrated encoder angle in degrees of the left front swerve module on Shuffleboard
             modulesTab.addDouble("Left Front Integrated Angle", () -> drivebase.getStates()[0].angle.getDegrees()).
             withPosition(2, 0).

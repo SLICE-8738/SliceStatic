@@ -6,7 +6,11 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,6 +19,8 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.PersistMode;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 //bread
@@ -29,7 +35,12 @@ public class Elevator extends SubsystemBase {
   public SparkMax leader = new SparkMax(11, MotorType.kBrushless);
   public SparkMax follower = new SparkMax(12, MotorType.kBrushless);
   SparkMaxConfig leadConfig = new SparkMaxConfig();
-  SparkMaxConfig followConfig = new SparkMaxConfig();  
+  SparkMaxConfig followConfig = new SparkMaxConfig(); 
+  
+  private RelativeEncoder encoder = leader.getEncoder();
+  EncoderConfig encoderConfig = new EncoderConfig();
+
+  private SparkClosedLoopController controller = leader.getClosedLoopController();
   
   public double[] heights = {24.000, 31.875, 47.625, 72.000, 20.000}; //height in inches
   //                         L1      L2      L3      L4     grab
@@ -55,8 +66,14 @@ public class Elevator extends SubsystemBase {
 
     leader.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     follower.configure(followConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    encoderConfig.positionConversionFactor(1000);
   }
 
+/************* STATIC (?) 3349 ***********/
+public void setPosition(double p){
+  controller.setReference(p, SparkMax.ControlType.kPosition);
+}
 
 
 /************* ROBOCATS 1699 ************/
@@ -177,7 +194,7 @@ public class Elevator extends SubsystemBase {
 
 /************* BREAD 5940 ************/  
 /** Not fully updated */
-
+  
   // LoggedTunableNumber kP = new LoggedTunableNumber("Elevator/kP", 0.5);
   // LoggedTunableNumber kD = new LoggedTunableNumber("Elevator/kD", 50.0);
   // LoggedTunableNumber kForwardsKa = new LoggedTunableNumber("Elevator/kForwardskA", 0.01);
@@ -192,7 +209,8 @@ public class Elevator extends SubsystemBase {
   // public static final double SECOND_STAGE_HEIGHT = 0.5872286463821073;
   // public static final double ELEVATOR_GEARING = (9.0/44.0);
   // public static final double ELEVATOR_PULLEY_PITCH_DIAMETER = 0.06096;
-
+  // public static final double ELEVATOR_BELOW_STAGE1_KG = -0.004;
+  // public static final double ELEVATOR_ABOVE_STAGE1_KG = 0.028;
 
 
   // public void updateInputs() {
@@ -202,7 +220,7 @@ public class Elevator extends SubsystemBase {
   //     posTarget = integratedSensorUnitsToMeters(leader.getActiveTrajectoryPosition());
   //     appliedVoltage = leader.getMotorOutputVoltage();
   //     currentAmps = new double[] {leader.getStatorCurrent(), follower.getStatorCurrent()};
-  //     tempCelcius = new double[] {leader.getTemperature(), follower.getTemperature()};
+  //     tempCelcius = new double[] {leader.getMotorTemperature(), follower.getMotorTemperature()};
   // }
 
   // public void setHeight(double heightMeters, boolean goSlow) {
@@ -242,8 +260,16 @@ public class Elevator extends SubsystemBase {
   // }
 
   // public void enableBrakeMode(boolean enable) {
-  //     leader.setNeutralMode(enable ? NeutralMode.Brake : NeutralMode.Coast);
-  //     follower.setNeutralMode(enable ? NeutralMode.Brake : NeutralMode.Coast);
+  //     // leader.setNeutralMode(enable ? NeutralMode.Brake : NeutralMode.Coast);
+  //     // follower.setNeutralMode(enable ? NeutralMode.Brake : NeutralMode.Coast);
+
+  //     if(enable){
+  //       leadConfig.idleMode(IdleMode.kBrake);
+  //       followConfig.idleMode(IdleMode.kBrake);
+  //     }else{
+  //       leadConfig.idleMode(IdleMode.kCoast);
+  //       followConfig.idleMode(IdleMode.kCoast);
+  //     }
   // }
 
   // public void updateTunableNumbers() {

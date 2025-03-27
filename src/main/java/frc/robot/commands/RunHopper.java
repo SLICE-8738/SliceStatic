@@ -1,9 +1,8 @@
-package frc.robot.commands;
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-
+package frc.robot.commands.Subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Hopper;
@@ -16,11 +15,24 @@ public class RunHopper extends Command {
     addRequirements(hopperSubsystem);
   }
 
+  public Command in(){
+    return hopperSubsystem.runOnce(() -> hopperSubsystem.runLeft(hopperSubsystem.hopperSpeed))
+                          .andThen(() -> hopperSubsystem.runRight(hopperSubsystem.hopperSpeed));
+  }
+
+  public Command out(){
+    return hopperSubsystem.runOnce(() -> hopperSubsystem.reverseLeft(hopperSubsystem.reverseHopperSpeed))
+                          .andThen(() -> hopperSubsystem.reverseRight(hopperSubsystem.reverseHopperSpeed));
+  }
+
+  public Command stop(){
+    return hopperSubsystem.runOnce(() -> hopperSubsystem.runLeft(0))
+                          .andThen(() -> hopperSubsystem.runRight(0));
+  }
+
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    System.out.println("Hopper Running");
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

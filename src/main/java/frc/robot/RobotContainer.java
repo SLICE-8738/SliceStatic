@@ -108,12 +108,14 @@ public class RobotContainer {
         new JoystickButton(manip, 2).onFalse(intake.rest());
         
         //elevator + arm + intake
-        new JoystickButton(manip, 3).onTrue(system.grab()); //X
-        new JoystickButton(manip, 4).onTrue(system.rest()); //Y
-        new POVButton(manip, 0).onTrue(system.setPosition(0)); //up
-        new POVButton(manip, 90).onTrue(system.setPosition(1)); //right
-        new POVButton(manip, 180).onTrue(system.setPosition(2)); //down
-        new POVButton(manip, 270).onTrue(system.setPosition(3)); //left        
+        // new JoystickButton(manip, 3).onTrue(system.grab()); //X
+        // new JoystickButton(manip, 4).onTrue(system.rest()); //Y
+        // new POVButton(manip, 0).onTrue(system.setPosition(0)); //up
+        // new POVButton(manip, 90).onTrue(system.setPosition(1)); //right
+        // new POVButton(manip, 180).onTrue(system.setPosition(2)); //down
+        // new POVButton(manip, 270).onTrue(system.setPosition(3)); //left  
+        new POVButton(manip, 0).onTrue(system.run());  
+
     }
 
     /**

@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.commands.Subsystems.RunElevator;
+import frc.robot.commands.RunElevator;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -39,11 +39,8 @@ import frc.robot.subsystems.Elevator;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
-<<<<<<< HEAD
     private final XboxController otherManipXbox = new XboxController(1);
-=======
     public XboxController manip = new XboxController(1);
->>>>>>> 8b7c4e2bbbde2aef4fb3ff615df7a30849608d1d
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -57,21 +54,12 @@ public class RobotContainer {
     /* Subsystems */
     private final Drivetrain s_Swerve = new Drivetrain();
     private final SendableChooser<Command> autoChooser;
-<<<<<<< HEAD
 
     // Manip Subsystems
     private final Elevator elevator = new Elevator();
     private final Intake intake = new Intake();
     private final RunElevator system = new RunElevator(elevator, intake);
     private final Hopper hopper = new Hopper();
-
-=======
-    private final Elevator elevator = new Elevator();
-    private final Arm arm = new Arm();
-    private final Intake intake = new Intake();
-    private final RunElevator system = new RunElevator(elevator, intake);
-    private final Hopper hopper = new Hopper();
->>>>>>> 8b7c4e2bbbde2aef4fb3ff615df7a30849608d1d
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -101,12 +89,8 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-<<<<<<< HEAD
 
-        /**button commands**/
-=======
         /* Button  Commands */
->>>>>>> 8b7c4e2bbbde2aef4fb3ff615df7a30849608d1d
         //hopper in
         new JoystickButton(manip, 5).onTrue(hopper.runLeft(hopper.hopperSpeed));
         new JoystickButton(manip, 5).onTrue(hopper.runRight(hopper.hopperSpeed));

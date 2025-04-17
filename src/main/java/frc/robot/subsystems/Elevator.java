@@ -6,6 +6,11 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import java.util.function.BooleanSupplier;
+
+import org.opencv.core.Mat;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -15,21 +20,18 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.PersistMode;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
-
-//bread
-import frc.robot.LoggedTunableNumber;
-
-//cat
-import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.SparkBase;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends SubsystemBase {
   public SparkMax leader = new SparkMax(11, MotorType.kBrushless);
@@ -37,13 +39,15 @@ public class Elevator extends SubsystemBase {
   SparkMaxConfig leadConfig = new SparkMaxConfig();
   SparkMaxConfig followConfig = new SparkMaxConfig(); 
   
-  private RelativeEncoder encoder = leader.getEncoder();
-  EncoderConfig encoderConfig = new EncoderConfig();
+  //private RelativeEncoder encoder = leader.getEncoder();
+  //EncoderConfig encoderConfig = new EncoderConfig();
 
   private SparkClosedLoopController controller = leader.getClosedLoopController();
   
-  public double[] heights = {24.000, 31.875, 47.625, 72.000, 20.000}; //height in inches
-  //                         L1      L2      L3      L4     grab
+  public double[] heights = {24.000, 31.875, 47.625, 48, 16}; //height in inches
+  //                         L1      L2      L3      L4  grab
+  public double currentPosition = 0;
+
   //speed conversion = 5676/5
 
   public Elevator(){
@@ -52,31 +56,61 @@ public class Elevator extends SubsystemBase {
 
   private void configureMotors(){
     leadConfig
-      .inverted(true)
+      .inverted(false)
       .idleMode(IdleMode.kBrake);
     leadConfig.encoder
-       .positionConversionFactor(1000)
-       .velocityConversionFactor(1000);
+       .positionConversionFactor(1.65)
+       .velocityConversionFactor(1.65);
+       //.velocityConversionFactor(1000);//(5*0.0508)/42);
     leadConfig.closedLoop
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-      .pid(4.25, 0, 0.6);
-
+      .pid(.02, 0, 0.002);
     followConfig.apply(leadConfig);
-    followConfig.follow(11, true);
+    followConfig.follow(11, false);
 
     leader.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     follower.configure(followConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    encoderConfig.positionConversionFactor(1000);
+    //encoderConfig.positionConversionFactor((5*0.0508)/42);
   }
 
-/************* STATIC (?) 3349 ***********/
-public void setPosition(double p){
-  controller.setReference(p, SparkMax.ControlType.kPosition);
-}
+  public void setPosition(double p){
+    currentPosition = p;
+    // System.out.println(currentPosition);
+    // System.out.println(encoder.getPosition());
+    controller.setReference(p, SparkMax.ControlType.kPosition);    
+    
+    //leader.set(.1); //for testing
+  }
+
+  public void stop(){
+    //leader.set(0); //for testing
+  }
+
+  //Commands for use when constructing Autos
+  public Command setPosition0Auto(){
+    return runOnce(() -> setPosition(heights[0]));
+  }
+
+  public Command setPosition1Auto(){
+    return runOnce(() -> setPosition(heights[1]));
+  }
+
+  public Command setPosition2Auto(){
+    return runOnce(() -> setPosition(heights[2]));
+  }
+
+  public Command setPosition3Auto(){
+    return runOnce(() -> setPosition(heights[3]));
+  }
+
 
 
 /************* ROBOCATS 1699 ************/
+
+// import com.revrobotics.spark.ClosedLoopSlot;
+// import com.revrobotics.spark.SparkBase;
+// import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 // private RelativeEncoder encoder = leader.getEncoder();
 //   private SparkClosedLoopController feedbackController = leader.getClosedLoopController();
@@ -194,7 +228,9 @@ public void setPosition(double p){
 
 /************* BREAD 5940 ************/  
 /** Not fully updated */
-  
+
+  // import frc.robot.LoggedTunableNumber;
+
   // LoggedTunableNumber kP = new LoggedTunableNumber("Elevator/kP", 0.5);
   // LoggedTunableNumber kD = new LoggedTunableNumber("Elevator/kD", 50.0);
   // LoggedTunableNumber kForwardsKa = new LoggedTunableNumber("Elevator/kForwardskA", 0.01);

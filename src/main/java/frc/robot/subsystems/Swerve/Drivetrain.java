@@ -69,8 +69,8 @@ public class Drivetrain extends SubsystemBase {
             this::getRobotRelativeSpeeds,
              (speeds, feeforwards) -> driveRobotRelative(speeds),
               new PPHolonomicDriveController(
-                new PIDConstants(5.0, 0.0, 0.0),
-                new PIDConstants(5.0, 0.0, 0.0)),
+                new PIDConstants(3.0, 0.0, 0.0),
+                new PIDConstants(3.0, 0.0, 0.0)),
                  config, 
                  () -> {
                     var alliance = DriverStation.getAlliance();
@@ -139,7 +139,10 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public Rotation2d getHeading(){
-        return getPose().getRotation(); 
+        Rotation2d heading;
+        heading = getPose().getRotation();
+        return heading;
+        
        // return Constants.kDrivetrain.INVERT_GYRO ? -gyro.getYaw() + 180 : gyro.getYaw() + 180;
     }
 

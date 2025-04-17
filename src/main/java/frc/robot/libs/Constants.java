@@ -146,6 +146,13 @@ public final class Constants {
     
         // Autnomous Tolerances
         public static final double AUTO_DISTANCE_ERROR_TOLERANCE = 0.35;
+
+        public static final class ArmConstants{
+          public static final double kSVolts = 0;
+          public static final double kGVolts = 0.33;
+          public static final double kVVoltSecondPerRad = 6.24;
+          public static final double kAVoltSecondSquaredPerRad = 0.04;
+        }
     
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */

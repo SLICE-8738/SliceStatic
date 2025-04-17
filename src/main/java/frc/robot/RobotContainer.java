@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.commands.RunElevator;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -39,7 +38,6 @@ import frc.robot.subsystems.Elevator;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
-    private final XboxController otherManipXbox = new XboxController(1);
     public XboxController manip = new XboxController(1);
 
     /* Drive Controls */
@@ -58,12 +56,27 @@ public class RobotContainer {
     // Manip Subsystems
     private final Elevator elevator = new Elevator();
     private final Intake intake = new Intake();
-    private final RunElevator system = new RunElevator(elevator, intake);
+    private final Arm arm = new Arm();
+    private final RunElevator system = new RunElevator(elevator, intake, arm);
     private final Hopper hopper = new Hopper();
-
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        //register named commands for pathplanner
+        NamedCommands.registerCommand("Run Hopper", hopper.runHopperAuto());
+        NamedCommands.registerCommand("Stop Hopper", hopper.stopHopperAuto());
+        NamedCommands.registerCommand("Elevator Position 0", elevator.setPosition0Auto());
+        NamedCommands.registerCommand("Elevator Position 1", elevator.setPosition1Auto());
+        NamedCommands.registerCommand("Elevator Position 2", elevator.setPosition2Auto());
+        NamedCommands.registerCommand("Elevator Position 3", elevator.setPosition3Auto());
+        NamedCommands.registerCommand("Arm Position 0", arm.setPosition0Auto());
+        NamedCommands.registerCommand("Arm Position 1", arm.setPosition1Auto());
+        NamedCommands.registerCommand("Arm Position 2", arm.setPosition2Auto());
+        NamedCommands.registerCommand("Arm Position 3", arm.setPosition3Auto());
+        NamedCommands.registerCommand("Run Intake", intake.runIntakeAuto());
+        NamedCommands.registerCommand("Stop Intake", intake.stopIntakeAuto());
+
+
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -73,8 +86,10 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
+
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
+
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -88,9 +103,13 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        
+        //intake controls
+        new JoystickButton(driver, 6).onTrue(intake.run(intake.intakeSpeed*-1));
+        new JoystickButton(driver, 6).onFalse(intake.rest());
 
 
-        /* Button  Commands */
+        /* Manip Buttons */ 
         //hopper in
         new JoystickButton(manip, 5).onTrue(hopper.runLeft(hopper.hopperSpeed));
         new JoystickButton(manip, 5).onTrue(hopper.runRight(hopper.hopperSpeed));
@@ -103,19 +122,28 @@ public class RobotContainer {
         new JoystickButton(manip, 6).onFalse(hopper.reverseLeft(0));
         new JoystickButton(manip, 6).onFalse(hopper.reverseRight(0));
         
-        //intake controls
-        new JoystickButton(manip, 2).onTrue(intake.run(intake.intakeSpeed*-1));
-        new JoystickButton(manip, 2).onFalse(intake.rest());
+        //hopper controls
+        // new JoystickButton(manip, 5).onTrue(hopper.in());
+        // new JoystickButton(manip, 5).onFalse(hopper.stop());
+        // new JoystickButton(manip, 6).onTrue(hopper.out());
+        // new JoystickButton(manip, 6).onFalse(hopper.stop());
         
         //elevator + arm + intake
-        // new JoystickButton(manip, 3).onTrue(system.grab()); //X
+        // new JoystickButton(manip, 3).onTrue(system.prepToGrab()); //X
+        // new JoystickButton(manip, 1).onTrue(system.grab()); //A
         // new JoystickButton(manip, 4).onTrue(system.rest()); //Y
-        // new POVButton(manip, 0).onTrue(system.setPosition(0)); //up
-        // new POVButton(manip, 90).onTrue(system.setPosition(1)); //right
-        // new POVButton(manip, 180).onTrue(system.setPosition(2)); //down
-        // new POVButton(manip, 270).onTrue(system.setPosition(3)); //left  
-        new POVButton(manip, 0).onTrue(system.run());  
 
+        //new and improved (theoretically)
+        new JoystickButton(manip, 4).onTrue(system.grabFunction);
+        new JoystickButton(manip, 3).onTrue(system.intakeGo());
+        new JoystickButton(manip, 3).onFalse(system.intakeStop());
+
+        new POVButton(manip, 0).onTrue(system.setPosition0());
+        new POVButton(manip, 90).onTrue(system.setPosition1());
+        new POVButton(manip, 180).onTrue(system.setPosition2());
+        new POVButton(manip, 270).onTrue(system.setPosition3());
+
+        SmartDashboard.getNumber("Elevator pos", elevator.currentPosition);
     }
 
     /**

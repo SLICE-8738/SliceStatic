@@ -15,7 +15,7 @@ public class Hopper extends SubsystemBase {
   public SparkMax hopperB = new SparkMax(10, MotorType.kBrushless);
   
   public double hopperSpeed = 0.3; //from 2024 code, untested
-  public double reverseHopperSpeed = 0.95; //from 2024 code, untested
+  public double reverseHopperSpeed = 0.90; //from 2024 code, untested
 
   public Hopper() {}
 
@@ -39,5 +39,9 @@ public class Hopper extends SubsystemBase {
   //Commands for use when constructing Autos
   public Command runHopperAuto(){
     return runOnce(() -> hopperA.set(hopperSpeed)).andThen(this.runOnce(() -> hopperB.set(-hopperSpeed)));
+  }
+  
+  public Command stopHopperAuto(){
+    return runOnce(() -> hopperA.set(0)).andThen(this.runOnce(() -> hopperB.set(0)));
   }
 }

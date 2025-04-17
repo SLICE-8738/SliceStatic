@@ -17,17 +17,20 @@ public class RunHopper extends Command {
 
   public Command in(){
     return hopperSubsystem.runOnce(() -> hopperSubsystem.runLeft(hopperSubsystem.hopperSpeed))
-                          .andThen(() -> hopperSubsystem.runRight(hopperSubsystem.hopperSpeed));
+                          .andThen(() -> hopperSubsystem.runRight(hopperSubsystem.hopperSpeed))
+                          .andThen(() -> System.out.println("hopper in"));
   }
 
   public Command out(){
     return hopperSubsystem.runOnce(() -> hopperSubsystem.reverseLeft(hopperSubsystem.reverseHopperSpeed))
-                          .andThen(() -> hopperSubsystem.reverseRight(hopperSubsystem.reverseHopperSpeed));
+                          .andThen(() -> hopperSubsystem.reverseRight(hopperSubsystem.reverseHopperSpeed))
+                          .andThen(() -> System.out.println("hopper out"));
   }
 
   public Command stop(){
     return hopperSubsystem.runOnce(() -> hopperSubsystem.runLeft(0))
-                          .andThen(() -> hopperSubsystem.runRight(0));
+                          .andThen(() -> hopperSubsystem.runRight(0))
+                          .andThen(() -> System.out.println("hopper stop"));
   }
 
   // Called when the command is initially scheduled.

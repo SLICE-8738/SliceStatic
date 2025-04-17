@@ -14,7 +14,7 @@ public class Intake extends SubsystemBase {
     public SparkMax intake = new SparkMax(22, MotorType.kBrushless);
   
     public double intakeSpeed = 0.4; //from 2024 code, untested
-    public double outtakeSpeed = -.5; //from 2024 code, untested
+    public double outtakeSpeed = -.1; //from 2024 code, untested
 
     public boolean isRunning = false;
 
@@ -47,5 +47,9 @@ public class Intake extends SubsystemBase {
     //Commands for use when constructing Autos
     public Command runIntakeAuto(){
       return runOnce(() -> intake.set(intakeSpeed));
+    }
+
+    public Command stopIntakeAuto(){
+      return runOnce(() -> intake.set(0));
     }
 }

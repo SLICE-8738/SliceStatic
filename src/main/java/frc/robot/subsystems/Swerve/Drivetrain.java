@@ -67,7 +67,7 @@ public class Drivetrain extends SubsystemBase {
             this::getPose,
             this::setPose,
             this::getRobotRelativeSpeeds,
-             (speeds, feeforwards) -> driveRobotRelative(speeds),
+             (speeds, feedforwards) -> driveRobotRelative(speeds),
               new PPHolonomicDriveController(
                 new PIDConstants(3.0, 0.0, 0.0),
                 new PIDConstants(3.0, 0.0, 0.0)),

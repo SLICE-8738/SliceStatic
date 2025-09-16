@@ -8,17 +8,17 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Swerve.Drivetrain;
 import frc.robot.subsystems.Swerve.SwerveModule;
-import frc.robot.subsystems.Elevator;
+//import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Arm;
 
-
+/* 
 public class ShuffleboardInfo {
     
    // ShuffleboardTab tab = Shuffleboard.getTab("Modules");
     
     private final ShuffleboardTab modulesTab, debugTab, autoTab;
 
-    public  ShuffleboardInfo(Drivetrain drivebase, Elevator elevator, Arm arm) {
+   // public  ShuffleboardInfo(Drivetrain drivebase, Elevator elevator, Arm arm) {
         
         modulesTab = Shuffleboard.getTab("Module Tab");
         debugTab = Shuffleboard.getTab("Debug Tab");
@@ -88,7 +88,8 @@ public class ShuffleboardInfo {
         
             
 
-        }
+   //     }
         
-    }
+ //   }
  
+ */

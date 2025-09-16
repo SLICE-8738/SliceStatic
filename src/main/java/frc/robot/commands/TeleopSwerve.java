@@ -23,7 +23,7 @@ public class TeleopSwerve extends Command {
     
     private CommandPS4Controller driverController;
 
-    public TeleopSwerve(Drivetrain s_Swerve, CommandPS4Controller driverController, BooleanSupplier robotCentricSup) {
+    public TeleopSwerve(Drivetrain s_Swerve, CommandPS4Controller driverController) {
         this.s_Swerve = s_Swerve;
         this.driverController = driverController;
         addRequirements(s_Swerve);
@@ -41,14 +41,15 @@ public class TeleopSwerve extends Command {
         /* Get Values, Deadband*/
         double translationVal = MathUtil.applyDeadband(driverController.getLeftX(), Constants.stickDeadband);
         double strafeVal = MathUtil.applyDeadband(driverController.getLeftY(), Constants.stickDeadband);
-        double rotationVal = MathUtil.applyDeadband(driverController.getRightX(), Constants.stickDeadband);
+        double rotationVal = MathUtil.applyDeadband(-driverController.getRightX(), Constants.stickDeadband);
+        Boolean fieldCentric = driverController.R1().getAsBoolean();
 
 
         /* Drive */
       s_Swerve.drive(
            new Translation2d(translationVal, strafeVal).times(Constants.kDrivetrain.MAX_LINEAR_VELOCITY), 
             rotationVal * Constants.kDrivetrain.MAX_ANGULAR_VELOCITY, 
-           true/*!robotCentricSup.getAsBoolean()*/, 
+           fieldCentric/*true*//*!robotCentricSup.getAsBoolean()*/, 
            true
         );
     }

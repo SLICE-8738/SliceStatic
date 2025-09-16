@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+ 
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -27,6 +28,7 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.PersistMode;
 
+import edu.wpi.first.hal.CANAPITypes.CANDeviceType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -34,24 +36,18 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends SubsystemBase {
-  public SparkMax leader = new SparkMax(11, MotorType.kBrushless);
-  public SparkMax follower = new SparkMax(12, MotorType.kBrushless);
-  SparkMaxConfig leadConfig = new SparkMaxConfig();
-  SparkMaxConfig followConfig = new SparkMaxConfig(); 
   
-  //private RelativeEncoder encoder = leader.getEncoder();
-  //EncoderConfig encoderConfig = new EncoderConfig();
+  public SparkMax leftMotor;
+  public SparkMax rightMotor;
 
-  private SparkClosedLoopController controller = leader.getClosedLoopController();
-  
-  public double[] heights = {24.000, 31.875, 47.625, 48, 16}; //height in inches
-  //                         L1      L2      L3      L4  grab
-  public double currentPosition = 0;
-
-  //speed conversion = 5676/5
+  public SparkMaxConfig leadConfig = new SparkMaxConfig();
+  public SparkMaxConfig followConfig = new SparkMaxConfig();
 
   public Elevator(){
-    configureMotors();
+    leftMotor = new SparkMax(0, MotorType.kBrushless);
+    rightMotor = new SparkMax(0, MotorType.kBrushless);
+    
+
   }
 
   private void configureMotors(){
@@ -68,44 +64,19 @@ public class Elevator extends SubsystemBase {
     followConfig.apply(leadConfig);
     followConfig.follow(11, false);
 
-    leader.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    follower.configure(followConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    leftMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    rightMotor.configure(followConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    //encoderConfig.positionConversionFactor((5*0.0508)/42);
   }
 
-  public void setPosition(double p){
-    currentPosition = p;
-    // System.out.println(currentPosition);
-    // System.out.println(encoder.getPosition());
-    controller.setReference(p, SparkMax.ControlType.kPosition);    
-    
-    //leader.set(.1); //for testing
+  public void manualElevator(double speed){
+    leftMotor.set(speed);
+    rightMotor.set(speed);
   }
 
-  public void stop(){
-    //leader.set(0); //for testing
-  }
+}
 
-  //Commands for use when constructing Autos
-  public Command setPosition0Auto(){
-    return runOnce(() -> setPosition(heights[0]));
-  }
-
-  public Command setPosition1Auto(){
-    return runOnce(() -> setPosition(heights[1]));
-  }
-
-  public Command setPosition2Auto(){
-    return runOnce(() -> setPosition(heights[2]));
-  }
-
-  public Command setPosition3Auto(){
-    return runOnce(() -> setPosition(heights[3]));
-  }
-
-
-
+ 
 /************* ROBOCATS 1699 ************/
 
 // import com.revrobotics.spark.ClosedLoopSlot;
@@ -354,4 +325,4 @@ public class Elevator extends SubsystemBase {
   // private double getHeight() {
   //     return integratedSensorUnitsToMeters(leader.getSelectedSensorPosition());
   // }
-}
+//}

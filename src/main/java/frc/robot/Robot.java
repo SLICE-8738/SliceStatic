@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.libs.CTREConfigs;
 import frc.robot.libs.Constants.kDrivetrain;
 import frc.robot.subsystems.Swerve.Drivetrain;
-import frc.robot.subsystems.Elevator;
+//import frc.robot.subsystems.Elevator;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to

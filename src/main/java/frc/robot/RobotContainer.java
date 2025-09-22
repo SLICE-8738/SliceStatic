@@ -24,16 +24,16 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.subsystems.Hopper;
+//import frc.robot.subsystems.Hopper;
 //import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
-
+//import frc.robot.subsystems.Intake;
+import frc.robot.commands.TeleopSwerve;
 //import frc.robot.autos.*;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+//import frc.robot.commands.*;
+//import frc.robot.subsystems.*;
 import frc.robot.subsystems.Swerve.Drivetrain;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Hopper;
+//import frc.robot.subsystems.Arm;
+//import frc.robot.subsystems.Hopper;
 //import frc.robot.subsystems.Elevator;
 
 
@@ -60,31 +60,31 @@ public class RobotContainer {
     private final TeleopSwerve swerveDrive = new TeleopSwerve(s_Swerve, driverController);
 
     // Manip Subsystems
-    private final Elevator elevator = new Elevator();
-    private final Intake intake = new Intake();
-    private final Arm arm = new Arm();
-    private final RunElevator runElevator = new RunElevator(elevator, operatorController);
-    private final Hopper hopper = new Hopper();
+    //private final Elevator elevator = new Elevator();
+    //private final Intake intake = new Intake();
+    //private final Arm arm = new Arm();
+    //private final RunElevator runElevator = new RunElevator(elevator, operatorController);
+    //private final Hopper hopper = new Hopper();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         //register named commands for pathplanner
-        NamedCommands.registerCommand("Run Hopper", hopper.runHopperAuto());
-        NamedCommands.registerCommand("Stop Hopper", hopper.stopHopperAuto());
+        //NamedCommands.registerCommand("Run Hopper", hopper.runHopperAuto());
+        //NamedCommands.registerCommand("Stop Hopper", hopper.stopHopperAuto());
         //NamedCommands.registerCommand("Elevator Position 0", elevator.setPosition0Auto());
         //NamedCommands.registerCommand("Elevator Position 1", elevator.setPosition1Auto());
         //NamedCommands.registerCommand("Elevator Position 2", elevator.setPosition2Auto());
         //NamedCommands.registerCommand("Elevator Position 3", elevator.setPosition3Auto());
-        NamedCommands.registerCommand("Arm Position 0", arm.setPosition0Auto());
-        NamedCommands.registerCommand("Arm Position 1", arm.setPosition1Auto());
-        NamedCommands.registerCommand("Arm Position 2", arm.setPosition2Auto());
-        NamedCommands.registerCommand("Arm Position 3", arm.setPosition3Auto());
-        NamedCommands.registerCommand("Run Intake", intake.runIntakeAuto());
-        NamedCommands.registerCommand("Stop Intake", intake.stopIntakeAuto());
+        //NamedCommands.registerCommand("Arm Position 0", arm.setPosition0Auto());
+        //NamedCommands.registerCommand("Arm Position 1", arm.setPosition1Auto());
+        //NamedCommands.registerCommand("Arm Position 2", arm.setPosition2Auto());
+        //NamedCommands.registerCommand("Arm Position 3", arm.setPosition3Auto());
+        //NamedCommands.registerCommand("Run Intake", intake.runIntakeAuto());
+        //NamedCommands.registerCommand("Stop Intake", intake.stopIntakeAuto());
 
 
         s_Swerve.setDefaultCommand(swerveDrive);
-        elevator.setDefaultCommand(runElevator);
+        //elevator.setDefaultCommand(runElevator);
 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);

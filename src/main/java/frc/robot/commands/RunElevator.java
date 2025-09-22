@@ -4,7 +4,7 @@
 
 
 
-
+/* 
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
@@ -27,7 +27,7 @@ public class RunElevator extends Command {
   private final Intake intakeSubsystem;
   */
   
-  private final CommandGenericHID operatorController;
+  //private final CommandGenericHID operatorController;
 
   //private TrapezoidProfile.State state0 = new State(0, 0);
   //private TrapezoidProfile.State state1 = new State(35, 0);
@@ -39,16 +39,17 @@ public class RunElevator extends Command {
 
   //public int grabPosition = 0;
 
-  public RunElevator(Elevator elevator, CommandGenericHID opController/*Intake iSubsystem, Arm aSubsystem*/) {
-    this.elevator = elevator;
-    operatorController = opController;
+  /* 
+  public RunElevator(Elevator elevator, CommandGenericHID opController/*Intake iSubsystem, Arm aSubsystem) {
+    //this.elevator = elevator;
+    //operatorController = opController;
     /*
     intakeSubsystem = iSubsystem;
     armSubsystem = aSubsystem;
     addRequirements(elevator);
-    */
+    
   }
-
+*/
   //public Command prepToGrab(){
    // return elevatorSubsystem.runOnce(() -> elevatorSubsystem.setPosition(elevatorSubsystem.heights[1]))
                        //     .andThen(() -> armSubsystem.setPosition(state4))
@@ -155,6 +156,7 @@ public class RunElevator extends Command {
     //return elevatorSubsystem.runOnce(() -> elevatorSubsystem.stop());
   // }
 
+  /*
 
   // Called when the command is initially scheduled.
   @Override
@@ -179,3 +181,4 @@ public class RunElevator extends Command {
   }
 }
 
+*/
